@@ -57,9 +57,9 @@ public class WorkController {
             headers.set(HttpHeaders.LOCATION, "/work/" + work.getId());
 
             return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
-        } else {
-            return ResponseEntity.notFound().build();
         }
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping(path = "/work/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,8 +70,8 @@ public class WorkController {
             final Work work = maybeWork.get();
 
             return new ResponseEntity<>(new WorkResponse(work), HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
         }
+
+        return ResponseEntity.notFound().build();
     }
 }
