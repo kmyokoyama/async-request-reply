@@ -32,7 +32,7 @@ A new work is always assigned an `UUID` and is created in the `pending` status.
 ```json
 {
     "id": "81a777df-07a1-4506-965f-007697c5a0d7",
-    "message": "Quis fuga sit quasi dolorem et.",
+    "message": "This is a message test",
     "status": "pending"
 }
 ```
@@ -76,7 +76,7 @@ The work has completed (i.e., it is either `succeeded` or `failed`)
 ```json
 {
     "id": "81a777df-07a1-4506-965f-007697c5a0d7",
-    "message": "Quis fuga sit quasi dolorem et.",
+    "message": "This is a message test",
     "status": "succeeded"
 }
 ```
