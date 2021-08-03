@@ -14,8 +14,8 @@ in Java with Spring.
 Body params:
 
 * `message`: mock of a work payload (String, mandatory)
-* `delay`: time in seconds to complete de work (long, optional, default: 30 seconds)
-* `shouldFail`: whether the work should succeed or fail (boolean, optional, default: false)
+* `delay`: time in seconds to complete de work (long, optional, default: `30`)
+* `shouldFail`: whether the work should succeed or fail (boolean, optional, default: `false`)
 
 ```json
 {
@@ -70,7 +70,7 @@ Path variables:
 
 The work does not exist or has not completed yet.
 
-#### Response `200 OK`
+#### Response `200 OK` (application/json)
 
 The work has completed (i.e., it is either `succeeded` or `failed`)
 
