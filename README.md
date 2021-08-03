@@ -1,8 +1,9 @@
 # async-request-reply
 
-A demo of the asynchronous request-reply pattern in Java with Spring.
+A demo of the [asynchronous request-reply pattern](https://docs.microsoft.com/en-us/azure/architecture/patterns/async-request-reply)
+in Java with Spring.
 
-[![](https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgY2xpZW50XG4gICAgcGFydGljaXBhbnQgYXBpIGFzIEFQSVxuXG4gICAgY2xpZW50LT4-YXBpOiBQT1NUIC93b3JrXG4gICAgYXBpLS0-PmNsaWVudDogSFRUUCAyMDJcblxuICAgIGxvb3Agd2hpbGUgd29yayBpcyBub3QgY29tcGxldGVkXG4gICAgICAgIGNsaWVudC0-PmFwaTogR0VUIC93b3JrL3tpZH0vc3RhdHVzXG4gICAgICAgIGFwaS0tPj5jbGllbnQ6IEhUVFAgMjAyIChwZW5kaW5nKVxuXG4gICAgICAgIE5vdGUgb3ZlciBjbGllbnQ6IHJldHJ5IGFmdGVyIHNvbWUgc2Vjb25kc1xuICAgIGVuZFxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfS9zdGF0dXNcbiAgICBhcGktLT4-Y2xpZW50OiBIVFRQIDMwMlxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfVxuICAgIGFwaS0tPj5jbGllbnQ6IEhUVFAgMjAwIChzdWNjZWVkZWQgb3IgZmFpbGVkKSIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)](https://mermaid-js.github.io/docs/mermaid-live-editor-beta/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgY2xpZW50XG4gICAgcGFydGljaXBhbnQgYXBpIGFzIEFQSVxuXG4gICAgY2xpZW50LT4-YXBpOiBQT1NUIC93b3JrXG4gICAgYXBpLS0-PmNsaWVudDogSFRUUCAyMDJcblxuICAgIGxvb3Agd2hpbGUgd29yayBpcyBub3QgY29tcGxldGVkXG4gICAgICAgIGNsaWVudC0-PmFwaTogR0VUIC93b3JrL3tpZH0vc3RhdHVzXG4gICAgICAgIGFwaS0tPj5jbGllbnQ6IEhUVFAgMjAyIChwZW5kaW5nKVxuXG4gICAgICAgIE5vdGUgb3ZlciBjbGllbnQ6IHJldHJ5IGFmdGVyIHNvbWUgc2Vjb25kc1xuICAgIGVuZFxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfS9zdGF0dXNcbiAgICBhcGktLT4-Y2xpZW50OiBIVFRQIDMwMlxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfVxuICAgIGFwaS0tPj5jbGllbnQ6IEhUVFAgMjAwIChzdWNjZWVkZWQgb3IgZmFpbGVkKSIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)
+[![](https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgY2xpZW50XG4gICAgcGFydGljaXBhbnQgYXBpIGFzIEFQSVxuXG4gICAgY2xpZW50LT4-YXBpOiBQT1NUIC93b3JrXG4gICAgYXBpLS0-PmNsaWVudDogSFRUUCAyMDJcblxuICAgIGxvb3Agd2hpbGUgd29yayBpcyBub3QgY29tcGxldGVkXG4gICAgICAgIGNsaWVudC0-PmFwaTogR0VUIC93b3JrL3tpZH0vc3RhdHVzXG4gICAgICAgIGFwaS0tPj5jbGllbnQ6IEhUVFAgMjAyIChwZW5kaW5nKVxuXG4gICAgICAgIE5vdGUgb3ZlciBjbGllbnQ6IHJldHJ5IGFmdGVyIHNvbWUgc2Vjb25kc1xuICAgIGVuZFxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfS9zdGF0dXNcbiAgICBhcGktLT4-Y2xpZW50OiBIVFRQIDMwMlxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfSAoTG9jYXRpb24pXG4gICAgYXBpLS0-PmNsaWVudDogSFRUUCAyMDAgKHN1Y2NlZWRlZCBvciBmYWlsZWQpIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0)](https://mermaid-js.github.io/docs/mermaid-live-editor-beta/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgY2xpZW50XG4gICAgcGFydGljaXBhbnQgYXBpIGFzIEFQSVxuXG4gICAgY2xpZW50LT4-YXBpOiBQT1NUIC93b3JrXG4gICAgYXBpLS0-PmNsaWVudDogSFRUUCAyMDJcblxuICAgIGxvb3Agd2hpbGUgd29yayBpcyBub3QgY29tcGxldGVkXG4gICAgICAgIGNsaWVudC0-PmFwaTogR0VUIC93b3JrL3tpZH0vc3RhdHVzXG4gICAgICAgIGFwaS0tPj5jbGllbnQ6IEhUVFAgMjAyIChwZW5kaW5nKVxuXG4gICAgICAgIE5vdGUgb3ZlciBjbGllbnQ6IHJldHJ5IGFmdGVyIHNvbWUgc2Vjb25kc1xuICAgIGVuZFxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfS9zdGF0dXNcbiAgICBhcGktLT4-Y2xpZW50OiBIVFRQIDMwMlxuXG4gICAgY2xpZW50LT4-YXBpOiBHRVQgL3dvcmsve2lkfSAoTG9jYXRpb24pXG4gICAgYXBpLS0-PmNsaWVudDogSFRUUCAyMDAgKHN1Y2NlZWRlZCBvciBmYWlsZWQpIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0)
 
 ## API
 
@@ -18,7 +19,7 @@ Body params:
 
 ```json
 {
-    "message": "This is a message test",
+    "message": "This is a test message",
     "delay": 10,
     "shouldFail": false
 }
@@ -32,7 +33,7 @@ A new work is always assigned an `UUID` and is created in the `pending` status.
 ```json
 {
     "id": "81a777df-07a1-4506-965f-007697c5a0d7",
-    "message": "This is a message test",
+    "message": "This is a test message",
     "status": "pending"
 }
 ```
@@ -76,7 +77,7 @@ The work has completed (i.e., it is either `succeeded` or `failed`)
 ```json
 {
     "id": "81a777df-07a1-4506-965f-007697c5a0d7",
-    "message": "This is a message test",
+    "message": "This is a test message",
     "status": "succeeded"
 }
 ```
