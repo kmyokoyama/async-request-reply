@@ -7,6 +7,7 @@ import io.kmyokoyama.asyncrequestreply.model.WorkResponse;
 import io.kmyokoyama.asyncrequestreply.service.WorkService;
 import io.kmyokoyama.asyncrequestreply.model.WorkStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +27,8 @@ public class WorkController {
     @Autowired
     private WorkService workService;
 
-    private static final long RETRY_AFTER_SECONDS = 120L;
+    @Value("${meta.retryAfter}")
+    private long retryAfter;
 
     @PostMapping(
             path = "/work",
@@ -49,7 +51,7 @@ public class WorkController {
             final HttpHeaders headers = new HttpHeaders();
 
             if (work.getStatus() == WorkStatus.PENDING) {
-                headers.set(HttpHeaders.RETRY_AFTER, String.valueOf(RETRY_AFTER_SECONDS));
+                headers.set(HttpHeaders.RETRY_AFTER, String.valueOf(retryAfter));
 
                 return ResponseEntity.accepted().headers(headers).build();
             }

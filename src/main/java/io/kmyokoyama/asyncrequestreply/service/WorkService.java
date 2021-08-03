@@ -5,6 +5,7 @@ import io.kmyokoyama.asyncrequestreply.model.Work;
 import io.kmyokoyama.asyncrequestreply.model.WorkMeta;
 import io.kmyokoyama.asyncrequestreply.model.WorkStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +20,8 @@ public class WorkService {
     @Autowired
     WorkRepository workRepository;
 
-    private static final long DELAY_DEFAULT = 30L; // In seconds.
+    @Value("${meta.delay}")
+    private long defaultDelay;
 
     private void updateWork(final UUID id, final WorkStatus status) {
         final Optional<Work> maybeWork = workRepository.findById(id);
@@ -45,7 +47,7 @@ public class WorkService {
 
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-        final long delay = meta.getDelay() == null ? DELAY_DEFAULT : meta.getDelay();
+        final long delay = meta.getDelay() == null ? defaultDelay : meta.getDelay();
         final boolean shouldFail = meta.getShouldFail() != null && meta.getShouldFail();
 
         if (shouldFail) {
