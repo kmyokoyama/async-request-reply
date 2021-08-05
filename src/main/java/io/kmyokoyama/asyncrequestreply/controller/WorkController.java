@@ -35,7 +35,7 @@ public class WorkController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WorkResponse> accept(final @RequestBody WorkRequest req) {
-        final WorkMeta meta = new WorkMeta(req.getDelay(), req.getShouldFail());
+        final WorkMeta meta = new WorkMeta.Builder().delay(req.getDelay()).shouldFail(req.getShouldFail()).build();
         final Work work = workService.process(new Work(req.getMessage()), meta);
 
         return new ResponseEntity<>(new WorkResponse(work), HttpStatus.ACCEPTED);
@@ -43,7 +43,7 @@ public class WorkController {
 
     @GetMapping(path = "/work/{id}/status")
     public ResponseEntity<?> status(final @PathVariable String id) {
-        Optional<Work> maybeWork = workService.getById(UUID.fromString(id));
+        Optional<Work> maybeWork = workService.findById(UUID.fromString(id));
 
         if (maybeWork.isPresent()) {
             final Work work = maybeWork.get();
@@ -66,7 +66,7 @@ public class WorkController {
 
     @GetMapping(path = "/work/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WorkResponse> fetch(final @PathVariable String id) {
-        Optional<Work> maybeWork = workService.getCompletedById(UUID.fromString(id));
+        Optional<Work> maybeWork = workService.findCompletedById(UUID.fromString(id));
 
         if (maybeWork.isPresent()) {
             final Work work = maybeWork.get();

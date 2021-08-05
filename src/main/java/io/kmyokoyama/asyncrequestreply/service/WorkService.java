@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -19,6 +17,9 @@ public class WorkService {
 
     @Autowired
     WorkRepository workRepository;
+
+    @Autowired
+    WorkExecutor workExecutor;
 
     @Value("${meta.delay}")
     private long defaultDelay;
@@ -34,6 +35,7 @@ public class WorkService {
             }
         });
     }
+
     private void completeWork(final UUID id) {
         updateWork(id, WorkStatus.SUCCEEDED);
     }
@@ -45,25 +47,24 @@ public class WorkService {
     public Work process(final Work work, final WorkMeta meta) {
         workRepository.upsert(work);
 
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-        final long delay = meta.getDelay() == null ? defaultDelay : meta.getDelay();
-        final boolean shouldFail = meta.getShouldFail() != null && meta.getShouldFail();
+        final long delay = meta.getDelay().orElse(defaultDelay);
+        final boolean shouldFail = meta.getShouldFail().orElse(false);
 
         if (shouldFail) {
-            executorService.schedule(() -> failWork(work.getId()), delay, TimeUnit.SECONDS);
+            workExecutor.schedule(() -> failWork(work.getId()), delay, TimeUnit.SECONDS);
         } else {
-            executorService.schedule(() -> completeWork(work.getId()), delay, TimeUnit.SECONDS);
+            workExecutor.schedule(() -> completeWork(work.getId()), delay, TimeUnit.SECONDS);
         }
 
         return work;
     }
 
-    public Optional<Work> getById(final UUID id) {
+    public Optional<Work> findById(final UUID id) {
         return workRepository.findById(id);
     }
 
-    public Optional<Work> getCompletedById(final UUID id) {
+    public Optional<Work> findCompletedById(final UUID id) {
         final Optional<Work> maybeWork = workRepository.findById(id);
 
         if (maybeWork.isPresent() && maybeWork.get().isCompleted()) {
